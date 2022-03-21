@@ -74,7 +74,7 @@ namespace library
         g_hInst = hInstance;
         RECT rc = { 0, 0, 800, 600 };
         AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW, FALSE);
-        g_hWnd = CreateWindow(L"TutorialWindowClass", L"Direct3D 11 Tutorial 1: Direct3D 11 Basics",
+        g_hWnd = CreateWindow(L"TutorialWindowClass", L"Game Graphics Programming Lab 01: Direct3D 11 Basics",
             WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX,
             CW_USEDEFAULT, CW_USEDEFAULT, rc.right - rc.left, rc.bottom - rc.top, nullptr, nullptr, hInstance,
             nullptr);
@@ -148,13 +148,13 @@ namespace library
         {
             g_driverType = driverTypes[driverTypeIndex];
             hr = D3D11CreateDevice(nullptr, g_driverType, nullptr, createDeviceFlags, featureLevels, numFeatureLevels,
-                D3D11_SDK_VERSION, &g_pd3dDevice, &g_featureLevel, &g_pImmediateContext);
+                D3D11_SDK_VERSION, g_pd3dDevice.GetAddressOf(), &g_featureLevel, g_pImmediateContext.GetAddressOf());
 
             if (hr == E_INVALIDARG)
             {
                 // DirectX 11.0 platforms will not recognize D3D_FEATURE_LEVEL_11_1 so we need to retry without it
                 hr = D3D11CreateDevice(nullptr, g_driverType, nullptr, createDeviceFlags, &featureLevels[1], numFeatureLevels - 1,
-                    D3D11_SDK_VERSION, &g_pd3dDevice, &g_featureLevel, &g_pImmediateContext);
+                    D3D11_SDK_VERSION, g_pd3dDevice.GetAddressOf(), &g_featureLevel, g_pImmediateContext.GetAddressOf());
             }
 
             if (SUCCEEDED(hr))
@@ -199,7 +199,7 @@ namespace library
 
         // Create swap chain
         ComPtr<IDXGIFactory2> dxgiFactory2;
-        hr = dxgiFactory->QueryInterface(__uuidof(IDXGIFactory2), (void**)&dxgiFactory2);
+        hr = dxgiFactory.As(&dxgiFactory2);
         if (dxgiFactory2)
         {
             // DirectX 11.1 or later
@@ -218,7 +218,7 @@ namespace library
             sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
             sd.BufferCount = 1;
 
-            hr = dxgiFactory2->CreateSwapChainForHwnd(g_pd3dDevice.Get(), g_hWnd, &sd, nullptr, nullptr, &g_pSwapChain1);
+            hr = dxgiFactory2->CreateSwapChainForHwnd(g_pd3dDevice.Get(), g_hWnd, &sd, nullptr, nullptr, g_pSwapChain1.GetAddressOf());
             if (SUCCEEDED(hr))
             {
                 hr = g_pSwapChain1.As(&g_pSwapChain);
@@ -240,26 +240,26 @@ namespace library
             sd.SampleDesc.Quality = 0;
             sd.Windowed = TRUE;
 
-            hr = dxgiFactory->CreateSwapChain(g_pd3dDevice.Get(), &sd, &g_pSwapChain);
+            hr = dxgiFactory->CreateSwapChain(g_pd3dDevice.Get(), &sd, g_pSwapChain.GetAddressOf());
         }
 
         // Note this tutorial doesn't handle full-screen swapchains so we block the ALT+ENTER shortcut
         dxgiFactory->MakeWindowAssociation(g_hWnd, DXGI_MWA_NO_ALT_ENTER);
 
-        //dxgiFactory->Release();
+        
 
         if (FAILED(hr))
             return hr;
 
         // Create a render target view
         ComPtr<ID3D11Texture2D> pBackBuffer;
-        hr = g_pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&pBackBuffer);
+        hr = g_pSwapChain->GetBuffer(0, IID_PPV_ARGS(&pBackBuffer));
         if (FAILED(hr))
             return hr;
 
-        hr = g_pd3dDevice->CreateRenderTargetView(pBackBuffer.Get(), nullptr, &g_pRenderTargetView);
+        hr = g_pd3dDevice->CreateRenderTargetView(pBackBuffer.Get(), nullptr, g_pRenderTargetView.GetAddressOf());
         
-        //pBackBuffer->Release();
+        
         if (FAILED(hr))
             return hr;
 
@@ -292,14 +292,6 @@ namespace library
     void CleanupDevice()
     {
         if (g_pImmediateContext) g_pImmediateContext->ClearState();
-
-        //if (g_pRenderTargetView) g_pRenderTargetView->Release();
-        //if (g_pSwapChain1) g_pSwapChain1->Release();
-        //if (g_pSwapChain) g_pSwapChain->Release();
-        //if (g_pImmediateContext1) g_pImmediateContext1->Release();
-        //if (g_pImmediateContext) g_pImmediateContext->Release();
-        //if (g_pd3dDevice1) g_pd3dDevice1->Release();
-        //if (g_pd3dDevice) g_pd3dDevice->Release();
     }
 }
 
