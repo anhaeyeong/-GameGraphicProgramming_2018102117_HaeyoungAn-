@@ -16,6 +16,21 @@
     <Filter Include="소스 파일\Game">
       <UniqueIdentifier>{18a86034-1ee6-40bb-b72a-22c4cd716d7f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Window">
+      <UniqueIdentifier>{d9c979e4-20a5-47bc-88f3-5387aa328df3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\Window">
+      <UniqueIdentifier>{c2661fed-1e9e-438e-9406-a69a3443e14b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Renderer">
+      <UniqueIdentifier>{074f7693-e67b-4f30-ae4d-76baf16f0976}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\Renderer">
+      <UniqueIdentifier>{715e0f5a-14cf-4cde-80ff-c6ac19bb4712}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\Game">
+      <UniqueIdentifier>{88edd590-87ba-4908-aa1c-00ba26ef2a79}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Common.h">
@@ -24,13 +39,28 @@
     <ClInclude Include="Resource.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Window\MainWindow.h">
+      <Filter>헤더 파일\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="Window\BaseWindow.h">
+      <Filter>헤더 파일\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Renderer.h">
+      <Filter>헤더 파일\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="Game\Game.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>헤더 파일\Game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game\Game.cpp">
       <Filter>소스 파일\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Window\MainWindow.cpp">
+      <Filter>소스 파일\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Renderer.cpp">
+      <Filter>소스 파일\Renderer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

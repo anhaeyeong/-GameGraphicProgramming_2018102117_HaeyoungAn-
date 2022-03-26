@@ -101,13 +101,18 @@ copy "$(TargetDir)" "$(SolutionDir)..\Library\x64\Release"</Command>
   <ItemGroup>
     <ClInclude Include="Common.h" />
     <ClInclude Include="Game\Game.h" />
+    <ClInclude Include="Renderer\Renderer.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="Window\BaseWindow.h" />
+    <ClInclude Include="Window\MainWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game\Game.cpp">
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
+    <ClCompile Include="Renderer\Renderer.cpp" />
+    <ClCompile Include="Window\MainWindow.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
