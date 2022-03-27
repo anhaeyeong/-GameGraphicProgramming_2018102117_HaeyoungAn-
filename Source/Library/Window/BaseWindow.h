@@ -221,7 +221,7 @@ namespace library
 
         RegisterClass(&wc);
 
-        m_hWnd = CreateWindowEx(0, wc.lpszClassName, pszWindowName, dwStyle, x, y, nWidth, nHeight, hWndParent, hMenu,
+        m_hWnd = CreateWindowEx(0, GetWindowClassName(), pszWindowName, dwStyle, x, y, nWidth, nHeight, hWndParent, hMenu,
             GetModuleHandle(NULL), this);
         return (m_hWnd ? TRUE : FALSE);
     }
