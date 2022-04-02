@@ -194,13 +194,14 @@ namespace library
 
 
         // Setup the viewport
-        D3D11_VIEWPORT vp;
-        vp.Width = (FLOAT)width;
-        vp.Height = (FLOAT)height;
-        vp.MinDepth = 0.0f;
-        vp.MaxDepth = 1.0f;
-        vp.TopLeftX = 0;
-        vp.TopLeftY = 0;
+        D3D11_VIEWPORT vp = {
+        .TopLeftX = 0,
+        .TopLeftY = 0,
+        .Width = (FLOAT)width,
+        .Height = (FLOAT)height,
+        .MinDepth = 0.0f,
+        .MaxDepth = 1.0f
+        };
         m_immediateContext->RSSetViewports(1, &vp);
 
         ComPtr<ID3DBlob> pVSBlob;
