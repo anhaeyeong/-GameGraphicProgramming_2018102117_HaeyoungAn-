@@ -68,6 +68,13 @@
       <Command>
       </Command>
     </PostBuildEvent>
+    <FxCompile>
+      <ShaderType>Effect</ShaderType>
+    </FxCompile>
+    <FxCompile>
+      <ShaderModel>5.0</ShaderModel>
+      <EntryPointName>PS</EntryPointName>
+    </FxCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -92,9 +99,27 @@
       <Command>
       </Command>
     </PostBuildEvent>
+    <FxCompile>
+      <EntryPointName>PS</EntryPointName>
+      <ShaderType>Effect</ShaderType>
+      <ShaderModel>5.0</ShaderModel>
+    </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Cube\BaseCube.cpp" />
     <ClCompile Include="Main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ChildCube.h" />
+    <ClInclude Include="Cube\BaseCube.h" />
+    <ClInclude Include="Cube\MyCube.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Shaders\PS.hlsl" />
+    <FxCompile Include="Shaders\VS.hlsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Shaders\Shaders.fxh" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

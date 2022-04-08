@@ -31,8 +31,11 @@
     <Filter Include="헤더 파일\Game">
       <UniqueIdentifier>{88edd590-87ba-4908-aa1c-00ba26ef2a79}</UniqueIdentifier>
     </Filter>
-    <Filter Include="헤더 파일\Shaders">
-      <UniqueIdentifier>{ebad8c81-92d7-4e39-b841-8c72fae8d254}</UniqueIdentifier>
+    <Filter Include="헤더 파일\Shader">
+      <UniqueIdentifier>{88e5f80c-88d9-4387-a6e6-581ab4ecc64b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Shader">
+      <UniqueIdentifier>{2968f5d4-79f0-4bb2-b253-9a1fac939cdc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -54,6 +57,21 @@
     <ClInclude Include="Game\Game.h">
       <Filter>헤더 파일\Game</Filter>
     </ClInclude>
+    <ClInclude Include="Shader\PixelShader.h">
+      <Filter>헤더 파일\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader\Shader.h">
+      <Filter>헤더 파일\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader\VertexShader.h">
+      <Filter>헤더 파일\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\DataTypes.h">
+      <Filter>헤더 파일\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Renderable.h">
+      <Filter>헤더 파일\Renderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game\Game.cpp">
@@ -65,18 +83,17 @@
     <ClCompile Include="Renderer\Renderer.cpp">
       <Filter>소스 파일\Renderer</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Shaders\Lab03.fxh">
-      <Filter>헤더 파일\Shaders</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="Shaders\Lab03_PS.hlsl">
-      <Filter>헤더 파일\Shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="Shaders\Lab03_VS.hlsl">
-      <Filter>헤더 파일\Shaders</Filter>
-    </FxCompile>
+    <ClCompile Include="Shader\PixelShader.cpp">
+      <Filter>소스 파일\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader\Shader.cpp">
+      <Filter>소스 파일\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader\VertexShader.cpp">
+      <Filter>소스 파일\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Renderable.cpp">
+      <Filter>소스 파일\Renderer</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
