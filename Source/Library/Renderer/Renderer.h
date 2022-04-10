@@ -13,7 +13,6 @@
 
 #include "Common.h"
 
-#include "Camera/Camera.h"
 #include "Renderer/DataTypes.h"
 #include "Renderer/Renderable.h"
 #include "Shader/PixelShader.h"
@@ -31,13 +30,19 @@ namespace library
       Methods:  Initialize
                   Creates Direct3D device and swap chain
                 AddRenderable
-                  Add a renderable object and initialize the object
-                HandleInput
-                  Handles the keyboard / mouse input
+                  Add a renderable object
+                AddVertexShader
+                  Add a vertex shader object
+                AddPixelShader
+                  Add a pixel shader object
                 Update
                   Update the renderables each frame
                 Render
                   Renders the frame
+                SetVertexShaderOfRenderable
+                  Set vertex shader to the renderable
+                SetPixelShaderOfRenderable
+                  Set pixel shader to the renderable
                 GetDriverType
                   Returns the Direct3D driver type
                 Renderer
@@ -56,11 +61,10 @@ namespace library
         ~Renderer() = default;
 
         HRESULT Initialize(_In_ HWND hWnd);
-        HRESULT AddRenderable(_In_ PCWSTR pszRenderableName, _In_ const std::shared_ptr<Renderable>& renderable);
+        HRESULT AddRenderable(_In_ PCWSTR pszRenderableName,_In_ const std::shared_ptr<Renderable>& renderable);
         HRESULT AddVertexShader(_In_ PCWSTR pszVertexShaderName, _In_ const std::shared_ptr<VertexShader>& vertexShader);
         HRESULT AddPixelShader(_In_ PCWSTR pszPixelShaderName, _In_ const std::shared_ptr<PixelShader>& pixelShader);
 
-        void HandleInput(_In_ const DirectionsInput& directions, _In_ const MouseRelativeMovement& mouseRelativeMovement, _In_ FLOAT deltaTime);
         void Update(_In_ FLOAT deltaTime);
         void Render();
 
@@ -81,10 +85,9 @@ namespace library
         ComPtr<ID3D11RenderTargetView> m_renderTargetView;
         ComPtr<ID3D11Texture2D> m_depthStencil;
         ComPtr<ID3D11DepthStencilView> m_depthStencilView;
-        //BYTE m_padding[8];
-        Camera m_camera;
+        XMMATRIX m_view;
         XMMATRIX m_projection;
-
+        
         std::unordered_map<PCWSTR, std::shared_ptr<Renderable>> m_renderables;
         std::unordered_map<PCWSTR, std::shared_ptr<VertexShader>> m_vertexShaders;
         std::unordered_map<PCWSTR, std::shared_ptr<PixelShader>> m_pixelShaders;

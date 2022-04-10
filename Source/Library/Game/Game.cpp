@@ -15,8 +15,7 @@ namespace library
     /*--------------------------------------------------------------------
       TODO: Game::Game definition (remove the comment)
     --------------------------------------------------------------------*/
-    Game::Game(_In_ PCWSTR pszGameName)
-        : m_pszGameName(pszGameName)
+    Game::Game(_In_ PCWSTR pszGameName) : m_pszGameName(pszGameName)
     {
         m_mainWindow = std::make_unique<MainWindow>();
         m_renderer = std::make_unique<Renderer>();
@@ -29,7 +28,7 @@ namespace library
 
       Args:     HINSTANCE hInstance
                   Handle to the instance
-              INT nCmdShow
+                INT nCmdShow
                   Is a flag that says whether the main application window
                   will be minimized, maximized, or shown normally
 
@@ -39,7 +38,7 @@ namespace library
                   Status code
     M---M---M---M---M---M---M---M---M---M---M---M---M---M---M---M---M-M*/
     /*--------------------------------------------------------------------
-      TODO: Game::Initialize definition (remove the comment)
+      TODO: Game::Initializes definition (remove the comment)
     --------------------------------------------------------------------*/
     HRESULT Game::Initialize(_In_ HINSTANCE hInstance, _In_ INT nCmdShow)
     {
@@ -86,15 +85,13 @@ namespace library
                 QueryPerformanceCounter(&EndingTime);
                 ElapsedSeconds = (FLOAT)(EndingTime.QuadPart - StartingTime.QuadPart) / (FLOAT)Frequency.QuadPart;
                 QueryPerformanceCounter(&StartingTime);
-                m_renderer->HandleInput(m_mainWindow->GetDirections(), m_mainWindow->GetMouseRelativeMovement(), ElapsedSeconds);
                 m_renderer->Update(ElapsedSeconds);
                 m_renderer->Render();  // Do some rendering
-                m_mainWindow->ResetMouseMovement();
             }
         }
         return static_cast<INT>(msg.wParam);
     }
-
+    
     /*M+M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M
       Method:   Game::GetGameName
 
@@ -126,6 +123,7 @@ namespace library
     {
         return m_mainWindow;
     }
+
     /*M+M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M
       Method:   Game::GetRenderer
 
@@ -141,4 +139,5 @@ namespace library
     {
         return m_renderer;
     }
+
 }

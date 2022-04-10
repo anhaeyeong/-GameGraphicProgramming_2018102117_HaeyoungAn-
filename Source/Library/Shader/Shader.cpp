@@ -92,7 +92,6 @@ namespace library
             }
             return hr;
         }
-        if (pErrorBlob) pErrorBlob->Release();
 
         return hr;
     }
