@@ -223,6 +223,6 @@ namespace library
 
         m_hWnd = CreateWindowEx(0, GetWindowClassName(), pszWindowName, dwStyle, x, y, nWidth, nHeight, hWndParent, hMenu,
             GetModuleHandle(NULL), this);
-        return (m_hWnd ? TRUE : FALSE);
+        return (m_hWnd ? S_OK : E_FAIL);
     }
 }

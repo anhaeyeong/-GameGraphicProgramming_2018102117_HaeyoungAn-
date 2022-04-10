@@ -50,7 +50,7 @@ INT WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
-
+    HRESULT hr = S_OK;
     std::unique_ptr<library::Game> game = std::make_unique<library::Game>(L"Game Graphics Programming Lab 04: 3D Spaces and Transformations");
 
     std::shared_ptr<library::VertexShader> vertexShader = std::make_shared<library::VertexShader>(L"Shaders/Shaders.fxh", "VS", "vs_5_0");
@@ -68,7 +68,7 @@ INT WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
     /*--------------------------------------------------------------------
       TODO: Add your cubes and set their shaders (remove the comment)
     --------------------------------------------------------------------*/
-    HRESULT hr = S_OK;
+    
     
     std::shared_ptr<MyCube> originCube = std::make_shared<MyCube>();
     game->GetRenderer()->AddRenderable(L"originCube", originCube);

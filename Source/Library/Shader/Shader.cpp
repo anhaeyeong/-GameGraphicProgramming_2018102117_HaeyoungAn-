@@ -70,7 +70,7 @@ namespace library
         dwShaderFlags |= D3DCOMPILE_DEBUG;
         dwShaderFlags |= D3DCOMPILE_SKIP_OPTIMIZATION;
 #endif
-        ID3DBlob* pErrorBlob = nullptr;
+        ComPtr<ID3DBlob> pErrorBlob(nullptr);
         hr = D3DCompileFromFile(
             m_pszFileName,
             nullptr,
