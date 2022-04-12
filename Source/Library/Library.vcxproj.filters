@@ -34,6 +34,12 @@
     <ClInclude Include="Game\Game.h">
       <Filter>헤더 파일\Game</Filter>
     </ClInclude>
+    <ClInclude Include="Camera\Camera.h">
+      <Filter>헤더 파일\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture\DDSTextureLoader.h">
+      <Filter>헤더 파일\Texture</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="헤더 파일">
@@ -66,6 +72,18 @@
     <Filter Include="헤더 파일\Game">
       <UniqueIdentifier>{80fd406a-c0cb-4ada-92b9-ce0eb50a1bec}</UniqueIdentifier>
     </Filter>
+    <Filter Include="헤더 파일\Camera">
+      <UniqueIdentifier>{e7bd753b-c34a-444d-a963-f48bd6361a13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\Texture">
+      <UniqueIdentifier>{f7d71e2c-fcc2-46c2-b1ce-22a6ec2ddd6b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Texture">
+      <UniqueIdentifier>{ec71d733-2084-481d-bcf4-cfa182ceae89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Camera">
+      <UniqueIdentifier>{6bd85e1a-ed1a-42c1-a119-d81e46369ed3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Shader\VertexShader.cpp">
@@ -88,6 +106,12 @@
     </ClCompile>
     <ClCompile Include="Renderer\Renderer.cpp">
       <Filter>소스 파일\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture\DDSTextureLoader.cpp">
+      <Filter>소스 파일\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera\Camera.cpp">
+      <Filter>소스 파일\Camera</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

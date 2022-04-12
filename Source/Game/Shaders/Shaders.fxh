@@ -6,29 +6,60 @@
 //--------------------------------------------------------------------------------------
 
 //--------------------------------------------------------------------------------------
+// Global Variables
+//--------------------------------------------------------------------------------------
+/*--------------------------------------------------------------------
+  TODO: Declare a diffuse texture and a sampler state (remove the comment)
+--------------------------------------------------------------------*/
+
+//--------------------------------------------------------------------------------------
 // Constant Buffer Variables
 //--------------------------------------------------------------------------------------
 /*C+C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C
-  Cbuffer:  ConstantBuffer
+  Cbuffer:  cbChangeOnCameraMovement
 
-  Summary:  Constant buffer used for space transformations
+  Summary:  Constant buffer used for view transformation
 C---C---C---C---C---C---C---C---C---C---C---C---C---C---C---C---C-C*/
 /*--------------------------------------------------------------------
-  TODO: ConstantBuffer definition (remove the comment)
+  TODO: cbChangeOnCameraMovement definition (remove the comment)
 --------------------------------------------------------------------*/
-cbuffer ConstantBuffer : register(b0)
+cbuffer cbChangeOnCameraMovement
 {
-    matrix World;
     matrix View;
+};
+
+/*C+C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C
+  Cbuffer:  cbChangeOnResize
+
+  Summary:  Constant buffer used for projection transformation
+C---C---C---C---C---C---C---C---C---C---C---C---C---C---C---C---C-C*/
+/*--------------------------------------------------------------------
+  TODO: cbChangeOnResize definition (remove the comment)
+--------------------------------------------------------------------*/
+cbuffer cbChangeOnResize
+{
     matrix Projection;
 };
 
+/*C+C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C
+  Cbuffer:  cbChangesEveryFrame
+
+  Summary:  Constant buffer used for world transformation
+C---C---C---C---C---C---C---C---C---C---C---C---C---C---C---C---C-C*/
+/*--------------------------------------------------------------------
+  TODO: cbChangesEveryFrame definition (remove the comment)
+--------------------------------------------------------------------*/
+struct cbChangesEveryFrame
+{
+    matrix World;
+    float4 vMeshColor;
+};
 
 //--------------------------------------------------------------------------------------
 /*C+C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C
   Struct:   VS_INPUT
 
-  Summary:  Used as the input to the vertex shader 
+  Summary:  Used as the input to the vertex shader
 C---C---C---C---C---C---C---C---C---C---C---C---C---C---C---C---C-C*/
 /*--------------------------------------------------------------------
   TODO: VS_INPUT definition (remove the comment)
@@ -36,12 +67,13 @@ C---C---C---C---C---C---C---C---C---C---C---C---C---C---C---C---C-C*/
 struct VS_INPUT
 {
     float4 Pos : POSITION;
+    float2 Tex : TEXCOORD
 };
 
 /*C+C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C
   Struct:   PS_INPUT
 
-  Summary:  Used as the input to the pixel shader, output of the
+  Summary:  Used as the input to the pixel shader, output of the 
             vertex shader
 C---C---C---C---C---C---C---C---C---C---C---C---C---C---C---C---C-C*/
 /*--------------------------------------------------------------------
@@ -50,8 +82,8 @@ C---C---C---C---C---C---C---C---C---C---C---C---C---C---C---C---C-C*/
 struct PS_INPUT
 {
     float4 Position : SV_POSITION;
+    float2 Texcoord : TEXCOORD;
 };
-
 
 //--------------------------------------------------------------------------------------
 // Vertex Shader
@@ -65,10 +97,10 @@ PS_INPUT VS(VS_INPUT input)
     output.Position = mul(input.Pos, World);
     output.Position = mul(output.Position, View);
     output.Position = mul(output.Position, Projection);
-    
+    output.Texcoord = input.Tex;
+
     return output;
 }
-
 
 //--------------------------------------------------------------------------------------
 // Pixel Shader
@@ -78,5 +110,5 @@ PS_INPUT VS(VS_INPUT input)
 --------------------------------------------------------------------*/
 float4 PS(PS_INPUT input) : SV_Target
 {
-    return float4(1.0f, 0.0f, 0.0f, 1.0f);
+    
 }
