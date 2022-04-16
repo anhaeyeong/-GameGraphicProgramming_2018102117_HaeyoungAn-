@@ -11,6 +11,8 @@
 /*--------------------------------------------------------------------
   TODO: Declare a diffuse texture and a sampler state (remove the comment)
 --------------------------------------------------------------------*/
+Texture2D txDiffuse : register(t0);
+SamplerState samLinear : register(s0);
 
 //--------------------------------------------------------------------------------------
 // Constant Buffer Variables
@@ -23,6 +25,10 @@ C---C---C---C---C---C---C---C---C---C---C---C---C---C---C---C---C-C*/
 /*--------------------------------------------------------------------
   TODO: cbChangeOnCameraMovement definition (remove the comment)
 --------------------------------------------------------------------*/
+cbuffer cbChangeOnCameraMovement : register(b0)
+{
+    matrix View;
+}
 
 /*C+C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C
   Cbuffer:  cbChangeOnResize
@@ -32,7 +38,10 @@ C---C---C---C---C---C---C---C---C---C---C---C---C---C---C---C---C-C*/
 /*--------------------------------------------------------------------
   TODO: cbChangeOnResize definition (remove the comment)
 --------------------------------------------------------------------*/
-
+cbuffer cbChangeOnResize : register(b1)
+{
+    matrix Projection;
+}
 /*C+C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C
   Cbuffer:  cbChangesEveryFrame
 
@@ -41,6 +50,10 @@ C---C---C---C---C---C---C---C---C---C---C---C---C---C---C---C---C-C*/
 /*--------------------------------------------------------------------
   TODO: cbChangesEveryFrame definition (remove the comment)
 --------------------------------------------------------------------*/
+cbuffer cbChangesEveryFrame : register(b2)
+{
+    matrix World;
+}
 
 //--------------------------------------------------------------------------------------
 /*C+C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C
@@ -51,6 +64,10 @@ C---C---C---C---C---C---C---C---C---C---C---C---C---C---C---C---C-C*/
 /*--------------------------------------------------------------------
   TODO: VS_INPUT definition (remove the comment)
 --------------------------------------------------------------------*/
+struct VS_INPUT {
+    float4 Pos : POSITION;
+    float2 Tex : TEXTCOORD;
+};
 
 /*C+C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C
   Struct:   PS_INPUT
@@ -61,6 +78,11 @@ C---C---C---C---C---C---C---C---C---C---C---C---C---C---C---C---C-C*/
 /*--------------------------------------------------------------------
   TODO: PS_INPUT definition (remove the comment)
 --------------------------------------------------------------------*/
+struct PS_INPUT
+{
+    float4 Position : SV_POSITION;
+    float2 Texcoord : TEXTCOORD;
+};
 
 //--------------------------------------------------------------------------------------
 // Vertex Shader
@@ -68,6 +90,15 @@ C---C---C---C---C---C---C---C---C---C---C---C---C---C---C---C---C-C*/
 /*--------------------------------------------------------------------
   TODO: Vertex Shader function VS definition (remove the comment)
 --------------------------------------------------------------------*/
+PS_INPUT VS(VS_INPUT input)
+{
+    PS_INPUT output = (PS_INPUT)0;
+    output.Position = mul(input.Pos, World);
+    output.Position = mul(output.Position, View);
+    output.Position = mul(output.Position, Projection);
+    output.Texcoord = input.Tex;
+    return output;
+}
 
 //--------------------------------------------------------------------------------------
 // Pixel Shader
@@ -75,3 +106,7 @@ C---C---C---C---C---C---C---C---C---C---C---C---C---C---C---C---C-C*/
 /*--------------------------------------------------------------------
   TODO: Pixel Shader function PS definition (remove the comment)
 --------------------------------------------------------------------*/
+float4 PS(PS_INPUT input) : SV_Target
+{
+    return txDiffuse.Sample(samLinear, input.Texcoord);
+}

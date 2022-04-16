@@ -11,6 +11,11 @@ M---M---M---M---M---M---M---M---M---M---M---M---M---M---M---M---M-M*/
 /*--------------------------------------------------------------------
   TODO: Cube::Cube definition (remove the comment)
 --------------------------------------------------------------------*/
+Cube::Cube(const std::filesystem::path& textureFilePath)
+    : BaseCube(textureFilePath)
+{
+
+}
 
 /*M+M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M
   Method:   Cube::Update

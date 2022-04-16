@@ -18,6 +18,7 @@
 
 #include "Cube/Cube.h"
 #include "Game/Game.h"
+#include "StrangeCube.h"
 
 /*F+F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   Function: wWinMain
@@ -74,6 +75,21 @@ INT WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
     }
 
     if (FAILED(game->GetRenderer()->SetPixelShaderOfRenderable(L"Cube", L"MainShader")))
+    {
+        return 0;
+    }
+    std::shared_ptr<StrangeCube> strangeCube = std::make_shared<StrangeCube>("chess.dds");
+    if (FAILED(game->GetRenderer()->AddRenderable(L"StrangeCube", strangeCube)))
+    {
+        return 0;
+    }
+
+    if (FAILED(game->GetRenderer()->SetVertexShaderOfRenderable(L"StrangeCube", L"MainShader")))
+    {
+        return 0;
+    }
+
+    if (FAILED(game->GetRenderer()->SetPixelShaderOfRenderable(L"StrangeCube", L"MainShader")))
     {
         return 0;
     }
