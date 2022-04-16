@@ -80,7 +80,7 @@ namespace library
             dwShaderFlags,
             0u,
             ppOutBlob,
-            &pErrorBlob
+            pErrorBlob.GetAddressOf()
         );
 
         if (FAILED(hr))
@@ -88,7 +88,6 @@ namespace library
             if (pErrorBlob)
             {
                 OutputDebugStringA((char*)pErrorBlob->GetBufferPointer());
-                pErrorBlob->Release();
             }
             return hr;
         }

@@ -25,6 +25,7 @@
 
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "d3dcompiler.lib")
+#pragma comment(lib, "dxguid.lib")
 
 #include <d3d11_4.h>
 #include <d3dcompiler.h>
@@ -48,11 +49,13 @@ constexpr LPCWSTR PSZ_COURSE_TITLE = L"Game Graphics Programming";
 
 using namespace Microsoft::WRL;
 using namespace DirectX;
+
 namespace library
 {
     /*S+S+++S+++S+++S+++S+++S+++S+++S+++S+++S+++S+++S+++S+++S+++S+++S+++S
-      Struct:   DirectionsInput
-      Summary:  Data structure that stores keyboard movement data
+        Class:    DirectionsInput
+
+        Summary:  Data structure that stores keyboard movement data
     S---S---S---S---S---S---S---S---S---S---S---S---S---S---S---S---S-S*/
     struct DirectionsInput
     {
@@ -65,8 +68,9 @@ namespace library
     };
 
     /*S+S+++S+++S+++S+++S+++S+++S+++S+++S+++S+++S+++S+++S+++S+++S+++S+++S
-      Struct:   MouseRelativeMovement
-      Summary:  Data structure that stores mouse relative movement data
+        Class:    MouseRelativeMovement
+
+        Summary:  Data structure that stores mouse relative movement data
     S---S---S---S---S---S---S---S---S---S---S---S---S---S---S---S---S-S*/
     struct MouseRelativeMovement
     {

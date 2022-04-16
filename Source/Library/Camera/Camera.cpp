@@ -15,9 +15,6 @@ namespace library
     /*--------------------------------------------------------------------
       TODO: Camera::Camera definition (remove the comment)
     --------------------------------------------------------------------*/
-    Camera::Camera(_In_ const XMVECTOR& position)
-    {
-    }
 
     /*M+M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M
       Method:   Camera::GetEye
@@ -30,12 +27,6 @@ namespace library
     /*--------------------------------------------------------------------
       TODO: Camera::GetEye definition (remove the comment)
     --------------------------------------------------------------------*/
-    const XMVECTOR& Camera::GetEye() const
-    {
-        return m_eye;
-    }
-
-    
 
     /*M+M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M
       Method:   Camera::GetAt
@@ -48,12 +39,6 @@ namespace library
     /*--------------------------------------------------------------------
       TODO: Camera::GetAt definition (remove the comment)
     --------------------------------------------------------------------*/
-    const XMVECTOR& Camera::GetAt() const
-    {
-        return m_at;
-    }
-
-    
 
     /*M+M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M
       Method:   Camera::GetUp
@@ -66,10 +51,6 @@ namespace library
     /*--------------------------------------------------------------------
       TODO: Camera::GetUp definition (remove the comment)
     --------------------------------------------------------------------*/
-    const XMVECTOR& Camera::GetUp() const
-    {
-        return m_up;
-    }
 
     /*M+M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M
       Method:   Camera::GetView
@@ -82,15 +63,18 @@ namespace library
     /*--------------------------------------------------------------------
       TODO: Camera::GetView definition (remove the comment)
     --------------------------------------------------------------------*/
-    const XMMATRIX& Camera::GetView() const
-    {
-        return m_view;
-    }
 
-    ComPtr<ID3D11Buffer>& Camera::GetConstantBuffer()
-    {
-        return m_cbChangeOnCameraMovement;
-    }
+    /*M+M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M
+      Method:   Camera::GetConstantBuffer
+
+      Summary:  Returns the constant buffer
+
+      Returns:  ComPtr<ID3D11Buffer>&
+                  The constant buffer
+    M---M---M---M---M---M---M---M---M---M---M---M---M---M---M---M---M-M*/
+    /*--------------------------------------------------------------------
+      TODO: Camera::GetConstantBuffer definition (remove the comment)
+    --------------------------------------------------------------------*/
 
     /*M+M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M
       Method:   Camera::HandleInput
@@ -110,10 +94,6 @@ namespace library
     /*--------------------------------------------------------------------
       TODO: Camera::HandleInput definition (remove the comment)
     --------------------------------------------------------------------*/
-    void Camera::HandleInput(_In_ const DirectionsInput& directions, _In_ const MouseRelativeMovement& mouseRelativeMovement, _In_ FLOAT deltaTime)
-    {
-
-    }
 
     /*M+M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M
       Method:   Camera::Initialize
@@ -128,10 +108,6 @@ namespace library
     /*--------------------------------------------------------------------
       TODO: Camera::Initialize definition (remove the comment)
     --------------------------------------------------------------------*/
-    HRESULT Camera::Initialize(_In_ ID3D11Device* device)
-    {
-
-    }
 
     /*M+M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M
       Method:   Camera::Update
@@ -148,8 +124,4 @@ namespace library
     /*--------------------------------------------------------------------
       TODO: Camera::Update definition (remove the comment)
     --------------------------------------------------------------------*/
-    void Camera::Update(_In_ FLOAT deltaTime)
-    {
-
-    }
 }
