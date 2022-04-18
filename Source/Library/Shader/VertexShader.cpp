@@ -68,6 +68,15 @@ namespace library
                 0,
                 D3D11_INPUT_PER_VERTEX_DATA,
                 0 
+            },
+            {
+                "TEXTCOORD",
+                0,
+                DXGI_FORMAT_R32G32_FLOAT,
+                0,
+                12,
+                D3D11_INPUT_PER_VERTEX_DATA,
+                0
             }
         };
         UINT uNumElements = ARRAYSIZE(aLayouts);

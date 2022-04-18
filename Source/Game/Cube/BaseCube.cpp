@@ -1,6 +1,22 @@
 #include "Cube/BaseCube.h"
 
 /*M+M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M
+  Method:   BaseCube::BaseCube
+
+  Summary:  Constructor
+
+  Args:     const std::filesystem::path& textureFilePath
+              Path to the texture to use
+M---M---M---M---M---M---M---M---M---M---M---M---M---M---M---M---M-M*/
+/*--------------------------------------------------------------------
+  TODO: BaseCube::BaseCube definition (remove the comment)
+--------------------------------------------------------------------*/
+BaseCube::BaseCube(const std::filesystem::path& textureFilePath)
+    : Renderable(textureFilePath)
+{
+}
+
+/*M+M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M
   Method:   BaseCube::Initialize
 
   Summary:  Initializes a basic cube
@@ -32,7 +48,7 @@ M---M---M---M---M---M---M---M---M---M---M---M---M---M---M---M---M-M*/
 /*--------------------------------------------------------------------
   TODO: BaseCube::GetNumVertices definition (remove the comment)
 --------------------------------------------------------------------*/
-UINT BaseCube::GetNumVertices() const 
+UINT BaseCube::GetNumVertices() const
 {
     return NUM_VERTICES;
 }
@@ -84,3 +100,4 @@ const WORD* BaseCube::getIndices() const
 {
     return INDICES;
 }
+

@@ -85,8 +85,10 @@ namespace library
                 QueryPerformanceCounter(&EndingTime);
                 ElapsedSeconds = (FLOAT)(EndingTime.QuadPart - StartingTime.QuadPart) / (FLOAT)Frequency.QuadPart;
                 QueryPerformanceCounter(&StartingTime);
+                m_renderer->HandleInput(m_mainWindow->GetDirections(), m_mainWindow->GetMouseRelativeMovement(), ElapsedSeconds);
                 m_renderer->Update(ElapsedSeconds);
                 m_renderer->Render();  // Do some rendering
+                m_mainWindow->ResetMouseMovement();
             }
         }
         return static_cast<INT>(msg.wParam);
