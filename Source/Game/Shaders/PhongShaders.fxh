@@ -165,7 +165,6 @@ float4 PSPhong(PS_PHONG_INPUT input) : SV_Target
         specular += saturate(pow(max(dot(-viewDirection, reflectDirection), 0), 20.0f) * LightColors[i]);
     }
     float4 color = txDiffuse.Sample(samLinear, input.TexCoord);
-    //return float4((specular + 1.0f) / 2.0f, 1.0f);
     return float4((ambient + diffuse + specular) * color, 1.0f);
 }
 /*--------------------------------------------------------------------

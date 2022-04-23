@@ -482,9 +482,6 @@ namespace library
         CBChangeOnCameraMovement Vcb;
         Vcb.View = XMMatrixTranspose(m_camera.GetView());
         XMStoreFloat4(&Vcb.CameraPosition, m_camera.GetEye());
-        WCHAR szDebugMessage[64];  // 배열의 크기는 메시지의 길이에 따라 조정하시면 됩니다
-        swprintf_s(szDebugMessage, L"eye: %f, %f, %f\n", XMVectorGetX(m_camera.GetEye()), XMVectorGetY(m_camera.GetEye()), XMVectorGetZ(m_camera.GetEye()));
-        OutputDebugString(szDebugMessage);
         m_immediateContext->UpdateSubresource(m_camera.GetConstantBuffer().Get(), 0, NULL, &Vcb, 0, 0);
         m_immediateContext->VSSetConstantBuffers(0u, 1u, m_camera.GetConstantBuffer().GetAddressOf());
         CBLights Lcb;
