@@ -27,8 +27,6 @@ namespace library
         , m_projection()
     {
     }
-
-
     /*M+M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M
       Method:   Renderer::Initialize
 
@@ -40,7 +38,7 @@ namespace library
       Modifies: [m_d3dDevice, m_featureLevel, m_immediateContext,
                  m_d3dDevice1, m_immediateContext1, m_swapChain1,
                  m_swapChain, m_renderTargetView, m_cbChangeOnResize, 
-                 m_projection, m_camera, m_vertexShaders, 
+                 m_projection, m_cbLights, m_camera, m_vertexShaders, 
                  m_pixelShaders, m_renderables].
 
       Returns:  HRESULT
@@ -247,6 +245,12 @@ namespace library
         {
             return hr;
         }
+        bd.ByteWidth = sizeof(CBLights) * NUM_LIGHTS;
+        hr = m_d3dDevice->CreateBuffer(&bd, nullptr, m_cbLights.GetAddressOf());
+        if (FAILED(hr))
+        {
+            return hr;
+        }
         CBChangeOnResize Pcb;
         Pcb.Projection = XMMatrixTranspose(m_projection);
         m_immediateContext->UpdateSubresource(m_cbChangeOnResize.Get(), 0, NULL, &Pcb, 0, 0);
@@ -270,16 +274,15 @@ namespace library
 
         return hr;
     }
-
     /*M+M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M
       Method:   Renderer::AddRenderable
 
-      Summary:  Add a renderable object and initialize the object
+      Summary:  Add a renderable object
 
       Args:     PCWSTR pszRenderableName
                   Key of the renderable object
                 const std::shared_ptr<Renderable>& renderable
-                  Unique pointer to the renderable object
+                  Shared pointer to the renderable object
 
       Modifies: [m_renderables].
 
@@ -310,7 +313,37 @@ namespace library
         }
         return hr;
     }
+    /*M+M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M
+      Method:   Renderer::AddPointLight
 
+      Summary:  Add a point light
+
+      Args:     size_t index
+                  Index of the point light
+                const std::shared_ptr<PointLight>& pointLight
+                  Shared pointer to the point light object
+
+      Modifies: [m_aPointLights].
+
+      Returns:  HRESULT
+                  Status code.
+    M---M---M---M---M---M---M---M---M---M---M---M---M---M---M---M---M-M*/
+    /*--------------------------------------------------------------------
+      TODO: Renderer::AddPointLight definition (remove the comment)
+    --------------------------------------------------------------------*/
+    HRESULT Renderer::AddPointLight(_In_ size_t index, _In_ const std::shared_ptr<PointLight>& pPointLight)
+    {
+        HRESULT hr = S_OK;
+        if (index >= NUM_LIGHTS)
+        {
+            hr = E_FAIL;
+        }
+        else
+        {
+            m_aPointLights[index] = pPointLight;
+        }
+        return hr;
+    }
     /*M+M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M
       Method:   Renderer::AddVertexShader
 
@@ -350,7 +383,6 @@ namespace library
         }
         return hr;
     }
-
     /*M+M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M
       Method:   Renderer::AddPixelShader
 
@@ -390,7 +422,6 @@ namespace library
         }
         return hr;
     }
-
     /*M+M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M
       Method:   Renderer::HandleInput
 
@@ -410,7 +441,6 @@ namespace library
     {
         m_camera.HandleInput(directions, mouseRelativeMovement, deltaTime);
     }
-
     /*M+M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M
       Method:   Renderer::Update
 
@@ -429,8 +459,11 @@ namespace library
             i.second->Update(deltaTime);
         }
         m_camera.Update(deltaTime);
+        for (auto i : m_aPointLights)
+        {
+            i->Update(deltaTime);
+        }
     }
-
     /*M+M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M
       Method:   Renderer::Render
 
@@ -448,22 +481,42 @@ namespace library
         UINT uOffset = 0;
         CBChangeOnCameraMovement Vcb;
         Vcb.View = XMMatrixTranspose(m_camera.GetView());
+        XMStoreFloat4(&Vcb.CameraPosition, m_camera.GetEye());
+        WCHAR szDebugMessage[64];  // 배열의 크기는 메시지의 길이에 따라 조정하시면 됩니다
+        swprintf_s(szDebugMessage, L"eye: %f, %f, %f\n", XMVectorGetX(m_camera.GetEye()), XMVectorGetY(m_camera.GetEye()), XMVectorGetZ(m_camera.GetEye()));
+        OutputDebugString(szDebugMessage);
         m_immediateContext->UpdateSubresource(m_camera.GetConstantBuffer().Get(), 0, NULL, &Vcb, 0, 0);
         m_immediateContext->VSSetConstantBuffers(0u, 1u, m_camera.GetConstantBuffer().GetAddressOf());
+        CBLights Lcb;
+        for (int i = 0; i < NUM_LIGHTS; i++)
+        {
+            Lcb.LightColors[i] = m_aPointLights[i]->GetColor();
+            Lcb.LightPositions[i] = m_aPointLights[i]->GetPosition();
+            m_immediateContext->UpdateSubresource(m_cbLights.Get(), 0, NULL, &Lcb, 0, 0);
+            m_immediateContext->VSSetConstantBuffers(3u, 1u, m_cbLights.GetAddressOf());
+            m_immediateContext->PSSetConstantBuffers(3u, 1u, m_cbLights.GetAddressOf());
+        }
         for (auto i : m_renderables) {
             m_immediateContext->IASetVertexBuffers(0u, 1u, i.second->GetVertexBuffer().GetAddressOf(), &uStride, &uOffset);
             m_immediateContext->IASetIndexBuffer(i.second->GetIndexBuffer().Get(), DXGI_FORMAT_R16_UINT, 0);
             m_immediateContext->IASetInputLayout(i.second->GetVertexLayout().Get());
             CBChangesEveryFrame Wcb;
             Wcb.World = XMMatrixTranspose(i.second->GetWorldMatrix());
+            Wcb.OutputColor = i.second->GetOutputColor();
             m_immediateContext->UpdateSubresource(i.second->GetConstantBuffer().Get(), 0, NULL, &Wcb, 0, 0);
             m_immediateContext->VSSetShader(i.second->GetVertexShader().Get(), nullptr, 0);
-            
-            
             m_immediateContext->VSSetConstantBuffers(2u, 1u, i.second->GetConstantBuffer().GetAddressOf());
             m_immediateContext->PSSetShader(i.second->GetPixelShader().Get(), nullptr, 0);
-            m_immediateContext->PSSetShaderResources(0u, 1u, i.second->GetTextureResourceView().GetAddressOf());
-            m_immediateContext->PSSetSamplers(0u, 1u, i.second->GetSamplerState().GetAddressOf());
+            if (i.second->HasTexture())
+            {
+                m_immediateContext->PSSetConstantBuffers(0u, 1u, m_camera.GetConstantBuffer().GetAddressOf());
+                m_immediateContext->PSSetShaderResources(0u, 1u, i.second->GetTextureResourceView().GetAddressOf());
+                m_immediateContext->PSSetSamplers(0u, 1u, i.second->GetSamplerState().GetAddressOf());
+            }
+            else
+            {
+                m_immediateContext->PSSetConstantBuffers(2u, 1u, i.second->GetConstantBuffer().GetAddressOf());
+            }
             m_immediateContext->DrawIndexed(i.second->GetNumIndices(), 0, 0);
         }
         m_swapChain->Present(0, 0);
@@ -503,7 +556,6 @@ namespace library
         }
         return hr;
     }
-
     /*M+M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M
       Method:   Renderer::SetPixelShaderOfRenderable
 
@@ -538,7 +590,6 @@ namespace library
         }
         return hr;
     }
-
     /*M+M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M
       Method:   Renderer::GetDriverType
 

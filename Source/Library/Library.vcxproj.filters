@@ -40,6 +40,9 @@
     <ClInclude Include="Texture\DDSTextureLoader.h">
       <Filter>헤더 파일\Texture</Filter>
     </ClInclude>
+    <ClInclude Include="Light\PointLight.h">
+      <Filter>헤더 파일\Light</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="헤더 파일">
@@ -84,6 +87,12 @@
     <Filter Include="소스 파일\Camera">
       <UniqueIdentifier>{6bd85e1a-ed1a-42c1-a119-d81e46369ed3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Light">
+      <UniqueIdentifier>{fa2071fd-30ca-485f-8b15-bac1eb0c133d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\Light">
+      <UniqueIdentifier>{45fedd66-aa54-4945-9d04-bc785980b4e1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Shader\VertexShader.cpp">
@@ -112,6 +121,9 @@
     </ClCompile>
     <ClCompile Include="Camera\Camera.cpp">
       <Filter>소스 파일\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Light\PointLight.cpp">
+      <Filter>소스 파일\Light</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
