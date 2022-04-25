@@ -489,10 +489,10 @@ namespace library
         {
             Lcb.LightColors[i] = m_aPointLights[i]->GetColor();
             Lcb.LightPositions[i] = m_aPointLights[i]->GetPosition();
-            m_immediateContext->UpdateSubresource(m_cbLights.Get(), 0, NULL, &Lcb, 0, 0);
-            m_immediateContext->VSSetConstantBuffers(3u, 1u, m_cbLights.GetAddressOf());
-            m_immediateContext->PSSetConstantBuffers(3u, 1u, m_cbLights.GetAddressOf());
         }
+        m_immediateContext->UpdateSubresource(m_cbLights.Get(), 0, NULL, &Lcb, 0, 0);
+        m_immediateContext->VSSetConstantBuffers(3u, 1u, m_cbLights.GetAddressOf());
+        m_immediateContext->PSSetConstantBuffers(3u, 1u, m_cbLights.GetAddressOf());
         for (auto i : m_renderables) {
             m_immediateContext->IASetVertexBuffers(0u, 1u, i.second->GetVertexBuffer().GetAddressOf(), &uStride, &uOffset);
             m_immediateContext->IASetIndexBuffer(i.second->GetIndexBuffer().Get(), DXGI_FORMAT_R16_UINT, 0);
@@ -506,14 +506,11 @@ namespace library
             m_immediateContext->PSSetShader(i.second->GetPixelShader().Get(), nullptr, 0);
             if (i.second->HasTexture())
             {
-                m_immediateContext->PSSetConstantBuffers(0u, 1u, m_camera.GetConstantBuffer().GetAddressOf());
                 m_immediateContext->PSSetShaderResources(0u, 1u, i.second->GetTextureResourceView().GetAddressOf());
                 m_immediateContext->PSSetSamplers(0u, 1u, i.second->GetSamplerState().GetAddressOf());
             }
-            else
-            {
-                m_immediateContext->PSSetConstantBuffers(2u, 1u, i.second->GetConstantBuffer().GetAddressOf());
-            }
+            m_immediateContext->PSSetConstantBuffers(0u, 1u, m_camera.GetConstantBuffer().GetAddressOf());
+            m_immediateContext->PSSetConstantBuffers(2u, 1u, i.second->GetConstantBuffer().GetAddressOf());
             m_immediateContext->DrawIndexed(i.second->GetNumIndices(), 0, 0);
         }
         m_swapChain->Present(0, 0);
