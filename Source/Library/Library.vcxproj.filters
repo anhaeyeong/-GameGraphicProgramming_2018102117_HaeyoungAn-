@@ -43,6 +43,15 @@
     <ClInclude Include="Light\PointLight.h">
       <Filter>헤더 파일\Light</Filter>
     </ClInclude>
+    <ClInclude Include="Scene\Scene.h">
+      <Filter>헤더 파일\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\Voxel.h">
+      <Filter>헤더 파일\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\InstancedRenderable.h">
+      <Filter>헤더 파일\Renderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="헤더 파일">
@@ -93,6 +102,12 @@
     <Filter Include="헤더 파일\Light">
       <UniqueIdentifier>{45fedd66-aa54-4945-9d04-bc785980b4e1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Scene">
+      <UniqueIdentifier>{d198a9f8-31bd-46e1-acbd-895152333b58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\Scene">
+      <UniqueIdentifier>{17d9bd81-1b1f-48c0-8bf1-bdbb4f7e889e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Shader\VertexShader.cpp">
@@ -124,6 +139,15 @@
     </ClCompile>
     <ClCompile Include="Light\PointLight.cpp">
       <Filter>소스 파일\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\Scene.cpp">
+      <Filter>소스 파일\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\Voxel.cpp">
+      <Filter>소스 파일\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\InstancedRenderable.cpp">
+      <Filter>소스 파일\Renderer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

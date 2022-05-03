@@ -18,6 +18,7 @@
 #ifndef WIN32_LEAN_AND_MEAN
 #define WIN32_LEAN_AND_MEAN
 #endif // ! WIN32_LEAN_AND_MEAN
+#define NUM_LIGHTS 2
 
 #include <windows.h>
 #include <wincodec.h>
@@ -46,10 +47,6 @@
 #include "Resource.h"
 
 constexpr LPCWSTR PSZ_COURSE_TITLE = L"Game Graphics Programming";
-
-#ifndef NUM_LIGHTS
-#define NUM_LIGHTS (2)
-#endif
 
 using namespace Microsoft::WRL;
 using namespace DirectX;
@@ -80,5 +77,30 @@ namespace library
     {
         LONG X;
         LONG Y;
+    };
+
+    /*E+E+++E+++E+++E+++E+++E+++E+++E+++E+++E+++E+++E+++E+++E+++E+++E+++E
+        Enum:     eBlockType
+
+        Summary:  Enumeration of block types
+    E---E---E---E---E---E---E---E---E---E---E---E---E---E---E---E---E-E*/
+    enum class eBlockType : CHAR
+    {
+        GRASSLAND = 21,
+        SNOW,
+        OCEAN,
+        SAND,
+        SCORCHED,
+        BARE,
+        TUNDRA,
+        TEMPERATE_DESERT,
+        SHRUBLAND,
+        TAIGA,
+        TEMPERATE_DECIDUOUS_FOREST,
+        TEMPERATE_RAIN_FOREST,
+        SUBTROPICAL_DESERT,
+        TROPICAL_SEASONAL_FOREST,
+        TROPICAL_RAIN_FOREST,
+        COUNT,
     };
 }
