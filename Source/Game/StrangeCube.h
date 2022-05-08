@@ -4,14 +4,9 @@
 class StrangeCube : public BaseCube
 {
 public:
-    StrangeCube(const std::filesystem::path& textureFilePath);
     virtual void Update(_In_ FLOAT deltaTime) override;
 };
 
-StrangeCube::StrangeCube(const std::filesystem::path& textureFilePath)
-    : BaseCube(textureFilePath)
-{
-}
 
 void StrangeCube::Update(_In_ FLOAT deltaTime)
 {

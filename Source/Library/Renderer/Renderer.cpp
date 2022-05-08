@@ -548,14 +548,28 @@ namespace library
             m_immediateContext->VSSetShader(i.second->GetVertexShader().Get(), nullptr, 0);
             m_immediateContext->VSSetConstantBuffers(2u, 1u, i.second->GetConstantBuffer().GetAddressOf());
             m_immediateContext->PSSetShader(i.second->GetPixelShader().Get(), nullptr, 0);
+            
+            
             if (i.second->HasTexture())
             {
-                m_immediateContext->PSSetShaderResources(0u, 1u, i.second->GetTextureResourceView().GetAddressOf());
-                m_immediateContext->PSSetSamplers(0u, 1u, i.second->GetSamplerState().GetAddressOf());
+                m_immediateContext->PSSetConstantBuffers(0u, 1u, m_camera.GetConstantBuffer().GetAddressOf());
+                for (UINT j = 0; j < i.second->GetNumMeshes(); j++)
+                {
+                    const UINT MaterialIndex = i.second->GetMesh(j).uMaterialIndex;
+                    if (i.second->GetMaterial(MaterialIndex).pDiffuse)
+                    {
+                        m_immediateContext->PSSetShaderResources(0u, 1u, i.second->GetMaterial(MaterialIndex).pDiffuse->GetTextureResourceView().GetAddressOf());
+                        m_immediateContext->PSSetSamplers(0u, 1u, i.second->GetMaterial(MaterialIndex).pDiffuse->GetSamplerState().GetAddressOf());
+                    }
+                    m_immediateContext->DrawIndexed(i.second->GetMesh(j).uNumIndices, i.second->GetMesh(j).uBaseIndex, i.second->GetMesh(j).uBaseVertex);
+                }
+                
             }
-            m_immediateContext->PSSetConstantBuffers(0u, 1u, m_camera.GetConstantBuffer().GetAddressOf());
-            m_immediateContext->PSSetConstantBuffers(2u, 1u, i.second->GetConstantBuffer().GetAddressOf());
-            m_immediateContext->DrawIndexed(i.second->GetNumIndices(), 0, 0);
+            else
+            {
+                m_immediateContext->PSSetConstantBuffers(2u, 1u, i.second->GetConstantBuffer().GetAddressOf());
+                m_immediateContext->DrawIndexed(i.second->GetNumIndices(), 0, 0);
+            }
         }
         m_swapChain->Present(0, 0);
     }

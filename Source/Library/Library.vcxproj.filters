@@ -43,14 +43,20 @@
     <ClInclude Include="Light\PointLight.h">
       <Filter>헤더 파일\Light</Filter>
     </ClInclude>
-    <ClInclude Include="Scene\Scene.h">
-      <Filter>헤더 파일\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene\Voxel.h">
-      <Filter>헤더 파일\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="Renderer\InstancedRenderable.h">
       <Filter>헤더 파일\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Model\Model.h">
+      <Filter>헤더 파일\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture\Material.h">
+      <Filter>헤더 파일\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture\Texture.h">
+      <Filter>헤더 파일\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture\WICTextureLoader.h">
+      <Filter>헤더 파일\Texture</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -102,11 +108,11 @@
     <Filter Include="헤더 파일\Light">
       <UniqueIdentifier>{45fedd66-aa54-4945-9d04-bc785980b4e1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\Scene">
-      <UniqueIdentifier>{d198a9f8-31bd-46e1-acbd-895152333b58}</UniqueIdentifier>
+    <Filter Include="소스 파일\Model">
+      <UniqueIdentifier>{16d390c5-9f26-4d72-baf4-6168fc2bc328}</UniqueIdentifier>
     </Filter>
-    <Filter Include="헤더 파일\Scene">
-      <UniqueIdentifier>{17d9bd81-1b1f-48c0-8bf1-bdbb4f7e889e}</UniqueIdentifier>
+    <Filter Include="헤더 파일\Model">
+      <UniqueIdentifier>{4e073e9e-c820-4c7e-9672-62a964db4678}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -140,14 +146,20 @@
     <ClCompile Include="Light\PointLight.cpp">
       <Filter>소스 파일\Light</Filter>
     </ClCompile>
-    <ClCompile Include="Scene\Scene.cpp">
-      <Filter>소스 파일\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene\Voxel.cpp">
-      <Filter>소스 파일\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="Renderer\InstancedRenderable.cpp">
       <Filter>소스 파일\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Model\Model.cpp">
+      <Filter>소스 파일\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture\Material.cpp">
+      <Filter>소스 파일\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture\Texture.cpp">
+      <Filter>소스 파일\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture\WICTextureLoader.cpp">
+      <Filter>소스 파일\Texture</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
