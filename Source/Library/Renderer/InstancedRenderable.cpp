@@ -13,7 +13,11 @@ namespace library
     /*--------------------------------------------------------------------
       TODO: InstancedRenderable::InstancedRenderable definition (remove the comment)
     --------------------------------------------------------------------*/
+    InstancedRenderable::InstancedRenderable(_In_ const XMFLOAT4& outputColor)
+        : Renderable(outputColor)
+    {
 
+    }
     /*M+M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M
       Method:   InstancedRenderable::InstancedRenderable
 
@@ -29,7 +33,13 @@ namespace library
     /*--------------------------------------------------------------------
       TODO: InstancedRenderable::InstancedRenderable definition (remove the comment)
     --------------------------------------------------------------------*/
+    InstancedRenderable::InstancedRenderable(_In_ std::vector<InstanceData>&& aInstanceData, _In_ const XMFLOAT4& outputColor)
+        : Renderable(outputColor)
+        , m_aInstanceData(aInstanceData)
+        , m_instanceBuffer(nullptr)
+    {
 
+    }
     /*M+M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M
       Method:   InstancedRenderable::SetInstanceData
 
@@ -43,7 +53,10 @@ namespace library
     /*--------------------------------------------------------------------
       TODO: InstancedRenderable::SetInstanceData definition (remove the comment)
     --------------------------------------------------------------------*/
-
+    void InstancedRenderable::SetInstanceData(_In_ std::vector<InstanceData>&& aInstanceData)
+    {
+        m_aInstanceData = aInstanceData;
+    }
     /*M+M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M
       Method:   InstancedRenderable::GetInstanceBuffer
 
@@ -55,7 +68,10 @@ namespace library
     /*--------------------------------------------------------------------
       TODO: InstancedRenderable::GetInstanceBuffer definition (remove the comment)
     --------------------------------------------------------------------*/
-
+    ComPtr<ID3D11Buffer>& InstancedRenderable::GetInstanceBuffer()
+    {
+        return m_instanceBuffer;
+    }
     /*M+M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M
       Method:   InstancedRenderable::GetNumInstances
 
@@ -67,7 +83,10 @@ namespace library
     /*--------------------------------------------------------------------
       TODO: InstancedRenderable::GetNumInstances definition (remove the comment)
     --------------------------------------------------------------------*/
-
+    UINT InstancedRenderable::GetNumInstances() const
+    {
+        return m_aInstanceData.size();
+    }
     /*M+M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M
       Method:   InstancedRenderable::initializeInstance
 
@@ -84,4 +103,30 @@ namespace library
     /*--------------------------------------------------------------------
       TODO: InstancedRenderable::initializeInstance definition (remove the comment)
     --------------------------------------------------------------------*/
+    HRESULT InstancedRenderable::initializeInstance(_In_ ID3D11Device* pDevice)
+    {
+        HRESULT hr = S_OK;
+
+
+        D3D11_BUFFER_DESC bd = {
+        .ByteWidth = GetNumInstances() * sizeof(InstanceData),
+        .Usage = D3D11_USAGE_DEFAULT,
+        .BindFlags = D3D11_BIND_VERTEX_BUFFER,
+        .CPUAccessFlags = 0,
+        .MiscFlags = 0,
+        };
+
+        D3D11_SUBRESOURCE_DATA initData = {
+            .pSysMem = m_aInstanceData.data(),
+            .SysMemPitch = 0,
+            .SysMemSlicePitch = 0
+        };
+
+        hr = pDevice->CreateBuffer(&bd, &initData, m_instanceBuffer.GetAddressOf());
+        if (FAILED(hr))
+        {
+            return hr;
+        }
+        return hr;
+    }
 }

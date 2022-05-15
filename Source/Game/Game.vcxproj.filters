@@ -19,6 +19,9 @@
     <Filter Include="헤더 파일\Light">
       <UniqueIdentifier>{3984561f-1b48-4bfa-9ea1-9917548c2f89}</UniqueIdentifier>
     </Filter>
+    <Filter Include="헤더 파일\Cube">
+      <UniqueIdentifier>{a05fc76c-20d6-478e-98b7-1e5286c8a681}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -38,26 +41,26 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Cube\BaseCube.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Cube\MyCube.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="ChildCube.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="StrangeCube.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Cube\Cube.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Light\RotatingPointLight.h">
       <Filter>헤더 파일\Light</Filter>
     </ClInclude>
+    <ClInclude Include="Cube\BaseCube.h">
+      <Filter>헤더 파일\Cube</Filter>
+    </ClInclude>
+    <ClInclude Include="ChildCube.h">
+      <Filter>헤더 파일\Cube</Filter>
+    </ClInclude>
+    <ClInclude Include="Cube\Cube.h">
+      <Filter>헤더 파일\Cube</Filter>
+    </ClInclude>
+    <ClInclude Include="Cube\MyCube.h">
+      <Filter>헤더 파일\Cube</Filter>
+    </ClInclude>
     <ClInclude Include="Cube\RotatingCube.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>헤더 파일\Cube</Filter>
+    </ClInclude>
+    <ClInclude Include="StrangeCube.h">
+      <Filter>헤더 파일\Cube</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -67,5 +70,6 @@
   <ItemGroup>
     <None Include="Shaders\Shaders.fxh" />
     <None Include="Shaders\PhongShaders.fxh" />
+    <None Include="Shaders\VoxelShaders.fxh" />
   </ItemGroup>
 </Project>

@@ -1,12 +1,9 @@
 /*+===================================================================
   File:      RENDERER.H
-
-  Summary:   Renderer header file contains declarations of Renderer 
-             class used for the lab samples of Game Graphics 
+  Summary:   Renderer header file contains declarations of Renderer
+             class used for the lab samples of Game Graphics
              Programming course.
-
   Classes: Renderer
-
   © 2022 Kyung Hee University
 ===================================================================+*/
 #pragma once
@@ -27,10 +24,8 @@ namespace library
 {
     /*C+C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C
       Class:    Renderer
-
       Summary:  Renderer initializes Direct3D, and renders renderable
                 data onto the screen
-
       Methods:  Initialize
                   Creates Direct3D device and swap chain
                 AddRenderable
@@ -76,12 +71,17 @@ namespace library
         HRESULT AddVertexShader(_In_ PCWSTR pszVertexShaderName, _In_ const std::shared_ptr<VertexShader>& vertexShader);
         HRESULT AddPixelShader(_In_ PCWSTR pszPixelShaderName, _In_ const std::shared_ptr<PixelShader>& pixelShader);
 
+        HRESULT AddScene(_In_ PCWSTR pszSceneName, const std::filesystem::path& sceneFilePath);
+        HRESULT SetMainScene(_In_ PCWSTR pszSceneName);
+
         void HandleInput(_In_ const DirectionsInput& directions, _In_ const MouseRelativeMovement& mouseRelativeMovement, _In_ FLOAT deltaTime);
         void Update(_In_ FLOAT deltaTime);
         void Render();
 
         HRESULT SetVertexShaderOfRenderable(_In_ PCWSTR pszRenderableName, _In_ PCWSTR pszVertexShaderName);
         HRESULT SetPixelShaderOfRenderable(_In_ PCWSTR pszRenderableName, _In_ PCWSTR pszPixelShaderName);
+        HRESULT SetVertexShaderOfScene(_In_ PCWSTR pszSceneName, _In_ PCWSTR pszVertexShaderName);
+        HRESULT SetPixelShaderOfScene(_In_ PCWSTR pszSceneName, _In_ PCWSTR pszPixelShaderName);
 
         D3D_DRIVER_TYPE GetDriverType() const;
 
@@ -107,6 +107,6 @@ namespace library
         std::shared_ptr<PointLight> m_aPointLights[NUM_LIGHTS];
         std::unordered_map<std::wstring, std::shared_ptr<VertexShader>> m_vertexShaders;
         std::unordered_map<std::wstring, std::shared_ptr<PixelShader>> m_pixelShaders;
-        
+        std::unordered_map<std::wstring, std::shared_ptr<Scene>> m_scenes;
     };
 }
