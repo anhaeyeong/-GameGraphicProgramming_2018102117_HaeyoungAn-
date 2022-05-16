@@ -154,8 +154,8 @@ PS_LIGHT_CUBE_INPUT VSLightCube(VS_PHONG_INPUT input)
 float4 PSPhong(PS_PHONG_INPUT input) : SV_Target
 {
     float3 viewDirection = normalize(input.WorldPosition - CameraPosition.xyz);
-    float3 specular = 0;
-    float3 diffuse;
+    float3 specular = (float3)0;
+    float3 diffuse = (float3)0;
     float3 ambient = float3(0.2f, 0.2f, 0.2f);
     for (uint i = 0; i < NUM_LIGHTS; ++i)
     {

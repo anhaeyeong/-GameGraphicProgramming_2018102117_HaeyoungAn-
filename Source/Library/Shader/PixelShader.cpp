@@ -60,7 +60,7 @@ namespace library
     }
 
     /*M+M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M+++M
-      Method:   PixelShader::GetPixelShader
+      Method:   PixelShader::GetPixelShader 
 
       Summary:  Returns the pixel shader
 

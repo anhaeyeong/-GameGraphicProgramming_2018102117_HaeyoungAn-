@@ -636,9 +636,7 @@ namespace library
                     m_immediateContext->PSSetShader(j->GetPixelShader().Get(), nullptr, 0);
                     m_immediateContext->PSSetConstantBuffers(2u, 1u, j->GetConstantBuffer().GetAddressOf());
                     
-                    //UINT instanceLocation = 0;
                     m_immediateContext->DrawIndexedInstanced(j->GetNumIndices(), j->GetNumInstances(), 0, 0, 0);
-                    //instanceLocation += j->GetNumInstances();
                 }
             }
         }
