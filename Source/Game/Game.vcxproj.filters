@@ -71,5 +71,6 @@
     <None Include="Shaders\Shaders.fxh" />
     <None Include="Shaders\PhongShaders.fxh" />
     <None Include="Shaders\VoxelShaders.fxh" />
+    <None Include="Shaders\SkinningShaders.fxh" />
   </ItemGroup>
 </Project>

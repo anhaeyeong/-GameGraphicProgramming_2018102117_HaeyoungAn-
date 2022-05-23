@@ -64,6 +64,9 @@
     <ClInclude Include="Scene\Voxel.h">
       <Filter>헤더 파일\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="Shader\SkinningVertexShader.h">
+      <Filter>헤더 파일\Shaders</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="헤더 파일">
@@ -178,6 +181,9 @@
     </ClCompile>
     <ClCompile Include="Scene\Voxel.cpp">
       <Filter>소스 파일\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader\SkinningVertexShader.cpp">
+      <Filter>소스 파일\Shaders</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
