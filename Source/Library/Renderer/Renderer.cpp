@@ -416,10 +416,15 @@ namespace library
     --------------------------------------------------------------------*/
     void Renderer::Render()
     {
-        std::shared_ptr<library::Scene> mainScene = m_scenes[m_pszMainSceneName];
         float ClearColor[4] = { 0.0f, 0.125f, 0.6f, 1.0f }; // RGBA
         m_immediateContext->ClearRenderTargetView(m_renderTargetView.Get(), ClearColor);
         m_immediateContext->ClearDepthStencilView(m_depthStencilView.Get(), D3D11_CLEAR_DEPTH, 1.0f, 0);
+        CBChangeOnResize cbChangesOnResize =
+        {
+            .Projection = XMMatrixTranspose(m_projection)
+        };
+        m_immediateContext->UpdateSubresource(m_cbChangeOnResize.Get(), 0, nullptr, &cbChangesOnResize, 0, 0);
+        m_immediateContext->VSSetConstantBuffers(1u, 1u, m_cbChangeOnResize.GetAddressOf());
         UINT uStride[2] = {
             sizeof(SimpleVertex),
             sizeof(NormalData)
@@ -513,6 +518,23 @@ namespace library
                     m_immediateContext->VSSetConstantBuffers(2u, 1u, j->GetConstantBuffer().GetAddressOf());
                     m_immediateContext->PSSetShader(j->GetPixelShader().Get(), nullptr, 0);
                     m_immediateContext->PSSetConstantBuffers(2u, 1u, j->GetConstantBuffer().GetAddressOf());
+                    if (j->HasTexture())
+                    {
+                        m_immediateContext->PSSetConstantBuffers(0u, 1u, m_camera.GetConstantBuffer().GetAddressOf());
+                        if (j->GetMaterial(0u)->pDiffuse && j->GetMaterial(0u)->pNormal)
+                        {
+                            ID3D11ShaderResourceView* aTextureRV[2] = {
+                                    j->GetMaterial(0u)->pDiffuse->GetTextureResourceView().Get(),
+                                    j->GetMaterial(0u)->pNormal->GetTextureResourceView().Get()
+                            };
+                            ID3D11SamplerState* aSamplers[2] = {
+                                j->GetMaterial(0u)->pDiffuse->GetSamplerState().Get(),
+                                j->GetMaterial(0u)->pNormal->GetSamplerState().Get()
+                            };
+                            m_immediateContext->PSSetShaderResources(0u, 2u, aTextureRV);
+                            m_immediateContext->PSSetSamplers(0u, 2u, aSamplers);
+                        }
+                    }
 
                     m_immediateContext->DrawIndexedInstanced(j->GetNumIndices(), j->GetNumInstances(), 0, 0, 0);
                 }

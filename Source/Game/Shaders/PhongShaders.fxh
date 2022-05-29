@@ -69,7 +69,7 @@ struct VS_PHONG_INPUT
     float3 Normal : NORMAL;
     float3 tangent : TANGENT;
     float3 Bitangent : BITANGENT;
-    row_major matrix mTransform : INSTANCE_TRANSFORM;
+    
 };
 /*C+C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C+++C
   Struct:   PS_PHONG_INPUT
@@ -98,8 +98,7 @@ struct PS_PHONG_INPUT
 PS_PHONG_INPUT VSPhong(VS_PHONG_INPUT input)
 {
     PS_PHONG_INPUT output = (PS_PHONG_INPUT)0;
-    output.Position = mul(input.Position, input.mTransform);
-    output.Position = mul(output.Position, World);
+    output.Position = mul(input.Position, World);
     output.Position = mul(output.Position, View);
     output.Position = mul(output.Position, Projection);
 
