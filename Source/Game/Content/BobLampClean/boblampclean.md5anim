@@ -16,6 +16,7 @@ hierarchy {
 	"neck"	5 63 36	// spine
 	"head"	6 63 42	// neck
 	"upperarm.L"	5 63 48	// spine
+	"forearm.L"	8 63 54	// upperarm.L
 	"wrist.L"	9 63 60	// forearm.L
 	"thumb.L"	10 63 66	// wrist.L
 	"thm_end.L"	11 63 72	// thumb.L
