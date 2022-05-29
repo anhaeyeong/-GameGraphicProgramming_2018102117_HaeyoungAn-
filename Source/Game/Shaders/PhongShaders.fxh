@@ -123,6 +123,7 @@ PS_PHONG_INPUT VSPhong(VS_PHONG_INPUT input)
 float4 PSPhong(PS_PHONG_INPUT input) : SV_Target
 {
     float3 normal = normalize(input.Normal);
+    
     if (HasNormalMap)
     {
         float4 bumpMap = aTextures[1].Sample(aSamplers[1], input.TexCoord);

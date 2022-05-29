@@ -121,6 +121,7 @@ PS_INPUT VSVoxel(VS_INPUT input)
 float4 PSVoxel(PS_INPUT input) : SV_Target
 {
     float3 normal = normalize(input.Normal);
+    
     if (HasNormalMap)
     {
         float4 bumpMap = aTextures[1].Sample(aSamplers[1], input.TexCoord);
@@ -131,6 +132,7 @@ float4 PSVoxel(PS_INPUT input) : SV_Target
 
         normal = normalize(bumpNormal);
     }
+    
     float3 diffuse = (float3)0;
     float3 ambient = float3(0.1f, 0.1f, 0.1f);
     for (uint i = 0; i < NUM_LIGHTS; ++i)
