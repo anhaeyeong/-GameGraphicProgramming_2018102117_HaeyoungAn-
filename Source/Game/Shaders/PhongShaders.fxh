@@ -127,7 +127,7 @@ float4 PSPhong(PS_PHONG_INPUT input) : SV_Target
     float3 ambient = float3(0.1f, 0.1f, 0.1f) * color.rgb;
     float2 depthTexCoord;
     depthTexCoord.x = input.LightViewPosition.x / input.LightViewPosition.w / 2.0f + 0.5f;
-    depthTexCoord.y = input.LightViewPosition.y / input.LightViewPosition.w / 2.0f + 0.5f;
+    depthTexCoord.y = -input.LightViewPosition.y / input.LightViewPosition.w / 2.0f + 0.5f;
     float closestDepth = shadowMapTexture.Sample(shadowMapSampler, depthTexCoord).r;
     float currentDepth = input.LightViewPosition.z / input.LightViewPosition.w;
 

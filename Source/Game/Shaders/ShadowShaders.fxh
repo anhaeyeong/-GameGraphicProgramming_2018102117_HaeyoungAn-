@@ -47,7 +47,7 @@ PS_SHADOW_INPUT VSShadow(VS_SHADOW_INPUT input)
 	output.Position = mul(pos, World);
 	output.Position = mul(output.Position, View);
 	output.Position = mul(output.Position, Projection);
-	output.DepthPosition = input.Position;
+	output.DepthPosition = output.Position;
 
 	return output;
 }
