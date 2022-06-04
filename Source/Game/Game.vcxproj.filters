@@ -24,9 +24,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Main.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Cube\BaseCube.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -37,6 +34,9 @@
       <Filter>소스 파일\Light</Filter>
     </ClCompile>
     <ClCompile Include="Cube\RotatingCube.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -72,5 +72,6 @@
     <None Include="Shaders\PhongShaders.fxh" />
     <None Include="Shaders\VoxelShaders.fxh" />
     <None Include="Shaders\SkinningShaders.fxh" />
+    <None Include="Shaders\ShadowShaders.fxh" />
   </ItemGroup>
 </Project>
