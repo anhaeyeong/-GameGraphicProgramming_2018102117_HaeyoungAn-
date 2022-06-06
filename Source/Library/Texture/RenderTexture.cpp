@@ -96,7 +96,7 @@ namespace library
 		{
 			return hr;
 		}
-
+		return hr;
 	}
 
 	ComPtr<ID3D11Texture2D>& RenderTexture::GetTexture2D()

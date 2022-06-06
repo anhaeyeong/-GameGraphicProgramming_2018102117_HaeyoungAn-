@@ -13,8 +13,8 @@ M---M---M---M---M---M---M---M---M---M---M---M---M---M---M---M---M-M*/
 /*--------------------------------------------------------------------
   TODO: RotatingPointLight::RotatingPointLight definition (remove the comment)
 --------------------------------------------------------------------*/
-RotatingPointLight::RotatingPointLight(_In_ const XMFLOAT4& position, _In_ const XMFLOAT4& color)
-    : library::PointLight(position, color)
+RotatingPointLight::RotatingPointLight(_In_ const XMFLOAT4& position, _In_ const XMFLOAT4& color, _In_ FLOAT attenuationDistance)
+    : library::PointLight(position, color, attenuationDistance)
 {
 
 }
@@ -38,9 +38,10 @@ void RotatingPointLight::Update(_In_ FLOAT deltaTime)
     XMVECTOR position = XMLoadFloat4(&m_position);
     position = XMVector3Transform(position, rotate);
     XMStoreFloat4(&m_position, position);
-    m_eye = XMLoadFloat4(&m_position);
+    /*m_eye = XMLoadFloat4(&m_position);
     XMFLOAT4 at = { 0.0f, 0.0f, 0.0f, 1.0f };
     m_at = XMLoadFloat4(&at);
     m_up = DEFAULT_UP;
-    m_view = XMMatrixLookAtLH(m_eye, m_at, m_up);
+    m_view = XMMatrixLookAtLH(m_eye, m_at, m_up); 
+    */
 }

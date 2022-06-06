@@ -18,6 +18,9 @@ SamplerState aSamplers[2] : register(s0);
 Texture2D shadowMapTexture : register(t2);
 SamplerState shadowMapSampler : register(s2);
 
+TextureCube envTexture : register(t3);
+SamplerState envSampler : register(s3);
+
 cbuffer cbChangeOnCameraMovement : register(b0)
 {
     matrix View;
@@ -36,12 +39,24 @@ cbuffer cbChangesEveryFrame : register(b2)
     bool HasNormalMap;
 };
 
+struct PointLight
+{
+    float4 Position;
+    float4 Color;
+    matrix View;
+    matrix Projection;
+    float4 AttenuationDistance;
+};
+
 cbuffer cbLights : register(b3)
 {
+    /*
     float4 LightPositions[NUM_LIGHTS];
     float4 LightColors[NUM_LIGHTS];
 	matrix LightViews[NUM_LIGHTS];
-	matrix LightProjections[NUM_LIGHTS];
+    matrix LightProjections[NUM_LIGHTS];
+    */
+    PointLight PointLights[NUM_LIGHTS];
 };
 
 struct VS_INPUT
@@ -86,9 +101,10 @@ PS_PHONG_INPUT VSPhong(VS_INPUT input)
     output.Normal = normalize(mul(float4(input.Normal, 0), World).xyz);
     output.WorldPosition = mul(input.Position, World);
     output.TexCoord = input.TexCoord;
-    output.LightViewPosition = mul(input.Position, World);
-    output.LightViewPosition = mul(output.LightViewPosition, LightViews[0]);
-    output.LightViewPosition = mul(output.LightViewPosition, LightProjections[0]);
+    output.LightViewPosition = input.Position;
+    output.LightViewPosition = mul(output.LightViewPosition, World);
+    output.LightViewPosition = mul(output.LightViewPosition, PointLights[0].View);
+    output.LightViewPosition = mul(output.LightViewPosition, PointLights[0].Projection);
     if (HasNormalMap)
     {
         output.Tangent = normalize(mul(float4(input.tangent, 0.0f), World).xyz);
@@ -109,6 +125,27 @@ PS_LIGHT_CUBE_INPUT VSLightCube(VS_INPUT input)
     return output;
 }
 
+PS_PHONG_INPUT VSEnvironmentMap(VS_INPUT input)
+{
+    PS_PHONG_INPUT output = (PS_PHONG_INPUT)0;
+    output.Position = mul(input.Position, World);
+    output.Position = mul(output.Position, View);
+    output.Position = mul(output.Position, Projection);
+
+    output.Normal = normalize(mul(float4(input.Normal, 0), World).xyz);
+    output.WorldPosition = mul(input.Position, World);
+    output.TexCoord = input.TexCoord;
+    output.LightViewPosition = PointLights[0].Position;
+    if (HasNormalMap)
+    {
+        output.Tangent = normalize(mul(float4(input.tangent, 0.0f), World).xyz);
+        output.Bitangent = normalize(mul(float4(input.Bitangent, 0.0f), World).xyz);
+    }
+
+
+    return output;
+}
+
 float LinearizeDepth(float depth)
 {
     float z = depth * 2.0 - 1.0;
@@ -125,7 +162,7 @@ float4 PSPhong(PS_PHONG_INPUT input) : SV_Target
     --------------------------------------------------------------------*/
     float4 color = aTextures[0].Sample(aSamplers[0], input.TexCoord);
     float3 ambient = float3(0.1f, 0.1f, 0.1f) * color.rgb;
-    float2 depthTexCoord;
+    /*float2 depthTexCoord;
     depthTexCoord.x = input.LightViewPosition.x / input.LightViewPosition.w / 2.0f + 0.5f;
     depthTexCoord.y = -input.LightViewPosition.y / input.LightViewPosition.w / 2.0f + 0.5f;
     float closestDepth = shadowMapTexture.Sample(shadowMapSampler, depthTexCoord).r;
@@ -135,8 +172,8 @@ float4 PSPhong(PS_PHONG_INPUT input) : SV_Target
     currentDepth = LinearizeDepth(currentDepth);
 
     if (currentDepth > closestDepth + 0.001f)
-        return float4(ambient, 1.0f);
-
+        return float4(ambient, 1.0f);*/
+    
     float3 normal = normalize(input.Normal);
 
     if (HasNormalMap)
@@ -152,18 +189,70 @@ float4 PSPhong(PS_PHONG_INPUT input) : SV_Target
     float3 viewDirection = normalize(input.WorldPosition - CameraPosition.xyz);
     float3 specular = (float3)0;
     float3 diffuse = (float3)0;
+    float eps = 0.000001f;
     for (uint i = 0; i < NUM_LIGHTS; ++i)
     {
-        float3 lightDirection = normalize(input.WorldPosition - LightPositions[i].xyz);
+        float3 lightDirection = normalize(input.WorldPosition - PointLights[i].Position.xyz);
         float3 reflectDirection = reflect(lightDirection, normal);
-        diffuse += saturate(max(dot(normal, -lightDirection), 0) * LightColors[i].xyz);
-        specular += saturate(pow(max(dot(-viewDirection, reflectDirection), 0), 20.0f) * LightColors[i]);
+        float r = distance(input.WorldPosition, PointLights[i].Position.xyz);
+        float rSquared = r * r;
+        rSquared = rSquared + eps;
+        float rSquared0 = PointLights[i].AttenuationDistance.z;
+        float attenuation = rSquared0 / rSquared;
+        float4 lightColor = PointLights[i].Color * attenuation;
+        diffuse += max(dot(normal, -lightDirection), 0) * PointLights[i].Color.xyz * lightColor.xyz;
+        specular += pow(max(dot(-viewDirection, reflectDirection), 0), 20.0f) * PointLights[i].Color.xyz * lightColor.xyz;
+        diffuse = (diffuse.x / attenuation, diffuse.y / attenuation, diffuse.z / attenuation);
+        specular = (specular.x / attenuation, specular.y / attenuation, specular.z / attenuation);
+        ambient = (ambient.x / attenuation, ambient.y / attenuation, ambient.z / attenuation);
     }
-    return float4((ambient + diffuse + specular) * color, 1.0f);
-
+    return float4((ambient + diffuse + specular), 1.0f) * color;
 }
 
 float4 PSLightCube(PS_LIGHT_CUBE_INPUT input) : SV_Target
 {
     return OutputColor;
+}
+
+float4 PSEnvironmentMap(PS_PHONG_INPUT input) : SV_Target
+{
+    float4 color = aTextures[0].Sample(aSamplers[0], input.TexCoord);
+    
+    float3 ambient = float3(0.1f, 0.1f, 0.1f) * color.rgb;
+    float3 normal = normalize(input.Normal);
+
+    if (HasNormalMap)
+    {
+        float4 bumpMap = aTextures[1].Sample(aSamplers[1], input.TexCoord);
+
+        bumpMap = (bumpMap * 2.0f) - 1.0f;
+
+        float3 bumpNormal = (bumpMap.x * input.Tangent) + (bumpMap.y * input.Bitangent) + (bumpMap.z * normal);
+
+        normal = normalize(bumpNormal);
+    }
+
+    float3 viewDirection = normalize(input.WorldPosition - CameraPosition.xyz);
+    float3 reflectVector = reflect(viewDirection, normal);
+    float3 specular = (float3)0;
+    float3 diffuse = (float3)0;
+    float4 envColor = envTexture.Sample(envSampler, reflectVector);
+    float eps = 0.000001f;
+    for (uint i = 0; i < NUM_LIGHTS; ++i)
+    {
+        float3 lightDirection = normalize(input.WorldPosition - PointLights[i].Position.xyz);
+        float3 reflectDirection = reflect(lightDirection, normal);
+        float r = distance(input.WorldPosition, PointLights[i].Position.xyz);
+        float rSquared = r * r;
+        rSquared = rSquared + eps;
+        float rSquared0 = PointLights[i].AttenuationDistance.z;
+        float attenuation = rSquared0 / rSquared;
+        diffuse += saturate(max(dot(normal, -lightDirection), 0) * PointLights[i].Color.xyz);
+        specular += saturate(pow(max(dot(-viewDirection, reflectDirection), 0), 20.0f) * PointLights[i].Color.xyz);
+        diffuse = (diffuse.x / attenuation, diffuse.y / attenuation, diffuse.z / attenuation);
+        specular = (specular.x / attenuation, specular.y / attenuation, specular.z / attenuation);
+        ambient = (ambient.x / attenuation, ambient.y / attenuation, ambient.z / attenuation);
+    }
+    return float4(saturate(ambient + diffuse + specular + envColor * 0.5f), color.a);
+    
 }
